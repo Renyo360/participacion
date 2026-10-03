@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriPaw | Nutrición Natural y Gourmet para tu Perro</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom Tailwind Configuration for Theme Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sage: {
+                            DEFAULT: '#3A6B4C',
+                            dark: '#2A4E37',
+                            light: '#EBF2ED',
+                            hover: '#315B40'
+                        },
+                        honey: {
+                            DEFAULT: '#E69A28',
+                            dark: '#C8821C',
+                            light: '#FCF5E8',
+                            hover: '#D2891F'
+                        },
+                        cream: '#F9F7F2',
+                        charcoal: '#2D312E',
+                        softgray: '#F0EFEA'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 30px -10px rgba(58, 107, 76, 0.12)',
+                        'card': '0 4px 20px rgba(0, 0, 0, 0.05)',
+                        'floating': '0 15px 35px rgba(0,0,0,0.15)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F9F7F2;
+            color: #2D312E;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F9F7F2;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3A6B4C;
+            border-radius: 4px;
+        }
+        .badge-pulse {
+            animation: pulse-ring 2s infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-honey selection:text-white">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-sage text-white text-xs sm:text-sm py-2 px-4 text-center font-medium flex items-center justify-center gap-2">
+        <span class="bg-honey text-xs uppercase px-2 py-0.5 rounded-full font-bold text-white tracking-wider">Envío Gratis</span>
+        <span>En tu primer pedido de suscripción mensual con el código <strong class="underline decoration-honey underline-offset-2">NUTRILOVE</strong></span>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-sage/10 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-11 h-11 rounded-2xl bg-sage flex items-center justify-center text-honey text-2xl shadow-md group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-paw"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-extrabold tracking-tight text-sage block leading-none">NutriPaw</span>
+                        <span class="text-[10px] font-semibold tracking-widest text-honey uppercase">Comida Real & Gourmet</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden lg:flex items-center gap-8 font-semibold text-sm text-charcoal/80">
+                    <a href="#inicio" class="hover:text-sage transition-colors">Inicio</a>
+                    <a href="#productos" class="hover:text-sage transition-colors">Productos</a>
+                    <a href="#calculadora" class="hover:text-sage transition-colors flex items-center gap-1.5">
+                        <i class="fa-solid fa-calculator text-honey"></i> Calculadora
+                    </a>
+                    <a href="#beneficios" class="hover:text-sage transition-colors">Beneficios</a>
+                    <a href="#testimonios" class="hover:text-sage transition-colors">Testimonios</a>
+                    <a href="#faq" class="hover:text-sage transition-colors">FAQ</a>
+                </nav>
+
+                <!-- Action Buttons & Cart Trigger -->
+                <div class="flex items-center gap-4">
+                    <button id="cart-btn" onclick="toggleCart()" class="relative p-3 rounded-xl bg-sage/10 hover:bg-sage/20 text-sage transition-all duration-200 focus:outline-none" aria-label="Abrir Carrito">
+                        <i class="fa-solid fa-basket-shopping text-xl"></i>
+                        <span id="cart-count-badge" class="absolute -top-1.5 -right-1.5 bg-honey text-white text-xs font-extrabold w-6 h-6 rounded-full flex items-center justify-center border-2 border-cream shadow-sm transition-transform scale-100">0</span>
+                    </button>
+
+                    <a href="#calculadora" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-bold text-sm bg-sage text-white hover:bg-sage-hover shadow-soft hover:shadow-lg transition-all transform active:scale-95">
+                        Arma tu Plan
+                    </a>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg text-charcoal hover:bg-sage/10">
+                        <i class="fa-solid fa-bars text-2xl" id="mobile-menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-cream border-b border-sage/10 px-6 pt-2 pb-6 space-y-4">
+            <a href="#inicio" onclick="toggleMobileMenu()" class="block py-2 text-base font-semibold text-charcoal hover:text-sage border-b border-sage/5">Inicio</a>
+            <a href="#productos" onclick="toggleMobileMenu()" class="block py-2 text-base font-semibold text-charcoal hover:text-sage border-b border-sage/5">Productos</a>
+            <a href="#calculadora" onclick="toggleMobileMenu()" class="block py-2 text-base font-semibold text-charcoal hover:text-sage border-b border-sage/5">Calculadora Ración</a>
+            <a href="#beneficios" onclick="toggleMobileMenu()" class="block py-2 text-base font-semibold text-charcoal hover:text-sage border-b border-sage/5">Beneficios</a>
+            <a href="#testimonios" onclick="toggleMobileMenu()" class="block py-2 text-base font-semibold text-charcoal hover:text-sage border-b border-sage/5">Testimonios</a>
+            <a href="#faq" onclick="toggleMobileMenu()" class="block py-2 text-base font-semibold text-charcoal hover:text-sage">Preguntas Frecuentes</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="relative pt-8 pb-16 lg:pt-16 lg:pb-28 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Left Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-honey/15 border border-honey/30 text-sage font-bold text-xs sm:text-sm">
+                        <i class="fa-solid fa-award text-honey"></i>
+                        <span>100% Grado Humano & Formulación Veterinaria</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-charcoal tracking-tight leading-[1.15]">
+                        La alimentación <span class="text-sage underline decoration-honey/60 decoration-wavy underline-offset-4">natural y fresca</span> que tu perro merece
+                    </h1>
+
+                    <p class="text-lg sm:text-xl text-charcoal/70 font-normal max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        Cocinamos platos artesanales con ingredientes reales de calidad de consumo humano, sin subproductos, harina de carne ni conservantes químicos artificiales.
+                    </p>
+
+                    <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#productos" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-honey text-white font-bold text-base hover:bg-honey-hover shadow-lg hover:shadow-honey/30 transition-all text-center flex items-center justify-center gap-2">
+                            <span>Explorar Productos</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="#calculadora" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-sage/10 text-sage font-bold text-base hover:bg-sage/20 border border-sage/20 transition-all text-center flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-calculator"></i>
+                            <span>Calcular Ración Ideal</span>
+                        </a>
+                    </div>
+
+                    <!-- Micro Social Proof -->
+                    <div class="pt-6 border-t border-sage/10 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-charcoal/70">
+                        <div class="flex items-center gap-2">
+                            <div class="flex -space-x-2">
+                                <img class="w-8 h-8 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Cliente">
+                                <img class="w-8 h-8 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" alt="Cliente">
+                                <img class="w-8 h-8 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" alt="Cliente">
+                            </div>
+                            <span class="font-bold text-charcoal">+3,500</span> perros felices
+                        </div>
+                        <div class="flex items-center gap-1 text-honey font-bold">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <span class="text-charcoal text-xs ml-1">(4.9/5 Reseñas)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Visual Display -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <!-- Main Hero Photo -->
+                        <div class="relative z-10 rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-4/3 bg-sage/20">
+                            <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Perro feliz disfrutando comida natural NutriPaw" 
+                                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                                 onerror="this.src='https://placehold.co/800x600/3A6B4C/FFF?text=NutriPaw+Comida+Natural'">
+                        </div>
+
+                        <!-- Floating Badge 1 -->
+                        <div class="absolute -top-6 -left-6 z-20 bg-white p-4 rounded-2xl shadow-floating border border-sage/10 flex items-center gap-3 hidden sm:flex">
+                            <div class="w-10 h-10 rounded-xl bg-sage/10 text-sage flex items-center justify-center text-xl font-bold">
+                                <i class="fa-solid fa-leaf"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 font-medium">Ingredientes</p>
+                                <p class="text-sm font-bold text-charcoal">100% Naturales</p>
+                            </div>
+                        </div>
+
+                        <!-- Floating Badge 2 -->
+                        <div class="absolute -bottom-6 -right-6 z-20 bg-white p-4 rounded-2xl shadow-floating border border-sage/10 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-honey/20 text-honey flex items-center justify-center text-xl font-bold">
+                                <i class="fa-solid fa-truck-fast"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 font-medium">Cadena de Frío</p>
+                                <p class="text-sm font-bold text-charcoal">Entrega Directa</p>
+                            </div>
+                        </div>
+
+                        <!-- Decorative BG Element -->
+                        <div class="absolute -inset-4 rounded-3xl bg-sage/10 -z-10 transform rotate-3"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Trust Features Grid -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-sage/10 shadow-card flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-sage/10 text-sage flex items-center justify-center text-2xl shrink-0">
+                        <i class="fa-solid fa-user-doctor"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-charcoal">Fórmula Veterinaria</h3>
+                        <p class="text-sm text-charcoal/70 mt-1">Diseñado por nutricionistas caninos para cubrir todos los requerimientos diarios.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-sage/10 shadow-card flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-honey/15 text-honey flex items-center justify-center text-2xl shrink-0">
+                        <i class="fa-solid fa-fire-burner"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-charcoal">Cocción al Vapor Lenta</h3>
+                        <p class="text-sm text-charcoal/70 mt-1">Preservamos vitaminas, minerales y nutrientes esenciales con baja temperatura.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-sage/10 shadow-card flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-sage/10 text-sage flex items-center justify-center text-2xl shrink-0">
+                        <i class="fa-solid fa-[#3A6B4C] fa-shield-heart"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-charcoal">Sin Químicos ni Rellenos</h3>
+                        <p class="text-sm text-charcoal/70 mt-1">Cero maíz, soya, harinas de origen incierto o conservantes artificiales.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NutriCalculator Section -->
+    <section id="calculadora" class="py-16 bg-sage/5 border-y border-sage/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs uppercase font-extrabold tracking-wider text-honey bg-honey/10 px-3 py-1 rounded-full">Herramienta Nutricional</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-charcoal mt-3">Calculadora de Ración Diaria</h2>
+                <p class="text-charcoal/70 mt-2">Descubre exactamente cuánto debe comer tu peludo según su peso, edad y estilo de vida.</p>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-sage/10 max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-12 gap-8 items-center">
+                    
+                    <!-- Calculator Inputs -->
+                    <div class="md:col-span-7 space-y-6">
+                        <!-- Weight Slider / Input -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label for="dog-weight" class="font-bold text-charcoal text-sm flex items-center gap-2">
+                                    <i class="fa-solid fa-weight-scale text-sage"></i> Peso del Perro (kg):
+                                </label>
+                                <span id="weight-display" class="font-extrabold text-lg text-sage bg-sage/10 px-3 py-0.5 rounded-lg">12 kg</span>
+                            </div>
+                            <input type="range" id="dog-weight" min="1" max="60" value="12" step="0.5" 
+                                   class="w-full h-2.5 bg-softgray rounded-lg appearance-none cursor-pointer accent-sage"
+                                   oninput="calculateNutrition()">
+                            <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                <span>1 kg (Mini)</span>
+                                <span>30 kg (Medio)</span>
+                                <span>60 kg (Gigante)</span>
+                            </div>
+                        </div>
+
+                        <!-- Age Stage Radio Selector -->
+                        <div>
+                            <label class="font-bold text-charcoal text-sm mb-2 block flex items-center gap-2">
+                                <i class="fa-solid fa-cake-candles text-sage"></i> Etapa de Vida:
+                            </label>
+                            <div class="grid grid-cols-3 gap-3">
+                                <button type="button" onclick="selectAge('cachorro', this)" class="age-btn px-3 py-2.5 rounded-xl border border-sage/20 text-xs sm:text-sm font-bold text-charcoal text-center hover:bg-sage/5 transition-all focus:outline-none">
+                                    🐶 Cachorro<br><span class="text-[10px] text-gray-500 font-normal">&lt; 12 meses</span>
+                                </button>
+                                <button type="button" onclick="selectAge('adulto', this)" class="age-btn active-btn px-3 py-2.5 rounded-xl border-2 border-sage bg-sage/10 text-xs sm:text-sm font-bold text-sage text-center transition-all focus:outline-none">
+                                    🐕 Adulto<br><span class="text-[10px] text-gray-500 font-normal">1 a 7 años</span>
+                                </button>
+                                <button type="button" onclick="selectAge('senior', this)" class="age-btn px-3 py-2.5 rounded-xl border border-sage/20 text-xs sm:text-sm font-bold text-charcoal text-center hover:bg-sage/5 transition-all focus:outline-none">
+                                    🦴 Senior<br><span class="text-[10px] text-gray-500 font-normal">+ 7 años</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Activity Level -->
+                        <div>
+                            <label class="font-bold text-charcoal text-sm mb-2 block flex items-center gap-2">
+                                <i class="fa-solid fa-bolt text-sage"></i> Nivel de Actividad Diaria:
+                            </label>
+                            <div class="grid grid-cols-3 gap-3">
+                                <button type="button" onclick="selectActivity('bajo', this)" class="act-btn px-3 py-2.5 rounded-xl border border-sage/20 text-xs sm:text-sm font-bold text-charcoal text-center hover:bg-sage/5 transition-all focus:outline-none">
+                                    😴 Tranquilo<br><span class="text-[10px] text-gray-500 font-normal">Paseos cortos</span>
+                                </button>
+                                <button type="button" onclick="selectActivity('moderado', this)" class="act-btn active-btn px-3 py-2.5 rounded-xl border-2 border-sage bg-sage/10 text-xs sm:text-sm font-bold text-sage text-center transition-all focus:outline-none">
+                                    🏃 Moderado<br><span class="text-[10px] text-gray-500 font-normal">1-2h de juego</span>
+                                </button>
+                                <button type="button" onclick="selectActivity('alto', this)" class="act-btn px-3 py-2.5 rounded-xl border border-sage/20 text-xs sm:text-sm font-bold text-charcoal text-center hover:bg-sage/5 transition-all focus:outline-none">
+                                    ⚡ Muy Activo<br><span class="text-[10px] text-gray-500 font-normal">Deporte/Carrera</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculator Results Box -->
+                    <div class="md:col-span-5 bg-gradient-to-br from-sage to-sage-dark text-white rounded-2xl p-6 shadow-lg flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-4 border-b border-white/20">
+                                <span class="text-xs uppercase font-bold text-honey tracking-widest">Resultado NutriPaw</span>
+                                <i class="fa-solid fa-heart-pulse text-honey text-lg"></i>
+                            </div>
+
+                            <div class="mt-6 text-center">
+                                <p class="text-xs uppercase text-white/80 font-medium">Porción Diaria Recomendada</p>
+                                <p id="calc-grams" class="text-4xl sm:text-5xl font-black text-honey my-1">360 g</p>
+                                <p class="text-xs text-white/70">dividido en 2 tomas diarias de <span id="calc-split" class="font-bold text-white">180g</span></p>
+                            </div>
+
+                            <div class="mt-6 space-y-2 bg-white/10 rounded-xl p-3 text-xs">
+                                <div class="flex justify-between">
+                                    <span class="text-white/80">Calorías Estimadas:</span>
+                                    <span id="calc-calories" class="font-bold text-white">540 kcal / día</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-white/80">Plan Recomendado:</span>
+                                    <span id="calc-plan-name" class="font-bold text-honey">Pack Fresco 10 kg / mes</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="addCalculatedPlanToCart()" class="mt-6 w-full py-3.5 px-4 bg-honey hover:bg-honey-hover text-white font-extrabold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-cart-plus"></i>
+                            <span>Agregar Plan Directo al Carrito</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catalog Section -->
+    <section id="productos" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-xs uppercase font-extrabold tracking-wider text-sage bg-sage/10 px-3 py-1 rounded-full">Menú Chef Canino</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-charcoal mt-3">Nuestra Colección Nutritiva</h2>
+                <p class="text-charcoal/70 mt-2">Selecciona entre menús frescos precocinados, croquetas horneadas lentamente o deliciosos premios saludables.</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10">
+                <button onclick="filterCategory('all', this)" class="filter-btn active-filter px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold bg-sage text-white shadow-sm transition-all">
+                    Todos los Productos
+                </button>
+                <button onclick="filterCategory('fresca', this)" class="filter-btn px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold bg-white text-charcoal/80 border border-sage/20 hover:border-sage transition-all">
+                    🍲 Comida Fresca
+                </button>
+                <button onclick="filterCategory('croquetas', this)" class="filter-btn px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold bg-white text-charcoal/80 border border-sage/20 hover:border-sage transition-all">
+                    🥩 Croquetas Premium
+                </button>
+                <button onclick="filterCategory('snacks', this)" class="filter-btn px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold bg-white text-charcoal/80 border border-sage/20 hover:border-sage transition-all">
+                    🦴 Snacks Naturales
+                </button>
+                <button onclick="filterCategory('barf', this)" class="filter-btn px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold bg-white text-charcoal/80 border border-sage/20 hover:border-sage transition-all">
+                    📦 Planes BARF / Suscripción
+                </button>
+            </div>
+
+            <!-- Products Grid Container -->
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison & Ingredients Section -->
+    <section id="beneficios" class="py-20 bg-sage/5 border-y border-sage/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs uppercase font-extrabold tracking-wider text-honey bg-honey/10 px-3 py-1 rounded-full">La Diferencia NutriPaw</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-charcoal mt-3">¿Por qué cambiar a comida real?</h2>
+                <p class="text-charcoal/70 mt-2">Compara la calidad de nuestros ingredientes versus el alimento procesado convencional.</p>
+            </div>
+
+            <!-- Comparison Table Matrix -->
+            <div class="bg-white rounded-3xl shadow-xl border border-sage/10 overflow-hidden mb-16">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-sage text-white text-sm">
+                                <th class="p-4 sm:p-6 font-bold w-1/3">Atributo Nutricional</th>
+                                <th class="p-4 sm:p-6 font-bold w-1/3 bg-sage-dark text-center">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <i class="fa-solid fa-paw text-honey"></i>
+                                        <span>NutriPaw Natural</span>
+                                    </div>
+                                </th>
+                                <th class="p-4 sm:p-6 font-bold w-1/3 bg-gray-600 text-center opacity-90">Ultraprocesados Tradicionales</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 text-xs sm:text-sm">
+                            <tr>
+                                <td class="p-4 sm:p-6 font-bold text-charcoal">Origen de Proteínas</td>
+                                <td class="p-4 sm:p-6 text-center font-bold text-sage bg-sage/5">100% Carne fresca grado humano</td>
+                                <td class="p-4 sm:p-6 text-center text-gray-500">Harinas de carne y subproductos</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 sm:p-6 font-bold text-charcoal">Digestibilidad</td>
+                                <td class="p-4 sm:p-6 text-center font-bold text-sage bg-sage/5">Más del 88% (heces pequeñas y firmes)</td>
+                                <td class="p-4 sm:p-6 text-center text-gray-500">Menos del 60% por exceso de cenizas</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 sm:p-6 font-bold text-charcoal">Conservantes y Aditivos</td>
+                                <td class="p-4 sm:p-6 text-center font-bold text-sage bg-sage/5">Cero conservantes (congelado fresco)</td>
+                                <td class="p-4 sm:p-6 text-center text-gray-500">BHT, BHA y colorantes sintéticos</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 sm:p-6 font-bold text-charcoal">Procesamiento Térmico</td>
+                                <td class="p-4 sm:p-6 text-center font-bold text-sage bg-sage/5">Cocinado suave al vapor lento</td>
+                                <td class="p-4 sm:p-6 text-center text-gray-500">Extrusión a altísima temperatura (+200°C)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 sm:p-6 font-bold text-charcoal">Pelaje y Salud de la Piel</td>
+                                <td class="p-4 sm:p-6 text-center font-bold text-sage bg-sage/5">Brillo visible en 2 a 3 semanas</td>
+                                <td class="p-4 sm:p-6 text-center text-gray-500">Común alergias y resequedad</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Key Ingredients Showcase -->
+            <div class="mt-12">
+                <h3 class="text-2xl font-bold text-charcoal text-center mb-8">Nuestros Super-Ingredientes Estrella</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <div class="bg-white p-5 rounded-2xl border border-sage/10 text-center shadow-sm hover:shadow-md transition-all">
+                        <div class="w-12 h-12 rounded-full bg-honey/10 text-honey flex items-center justify-center text-2xl mx-auto mb-3">🍗</div>
+                        <h4 class="font-bold text-sm text-charcoal">Pollo de Libre Pastoreo</h4>
+                        <p class="text-[11px] text-gray-500 mt-1">Proteína magra para desarrollo muscular saludable.</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-sage/10 text-center shadow-sm hover:shadow-md transition-all">
+                        <div class="w-12 h-12 rounded-full bg-sage/10 text-sage flex items-center justify-center text-2xl mx-auto mb-3">🐟</div>
+                        <h4 class="font-bold text-sm text-charcoal">Salmón Salvaje</h4>
+                        <p class="text-[11px] text-gray-500 mt-1">Rico en Omega-3 para articulaciones y pelaje radiante.</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-sage/10 text-center shadow-sm hover:shadow-md transition-all">
+                        <div class="w-12 h-12 rounded-full bg-honey/10 text-honey flex items-center justify-center text-2xl mx-auto mb-3">🍠</div>
+                        <h4 class="font-bold text-sm text-charcoal">Camote Dulce</h4>
+                        <p class="text-[11px] text-gray-500 mt-1">Carbohidrato complejo de digestión lenta y fibra.</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-sage/10 text-center shadow-sm hover:shadow-md transition-all">
+                        <div class="w-12 h-12 rounded-full bg-sage/10 text-sage flex items-center justify-center text-2xl mx-auto mb-3">🥬</div>
+                        <h4 class="font-bold text-sm text-charcoal">Espinacas Frescas</h4>
+                        <p class="text-[11px] text-gray-500 mt-1">Cargadas de hierro, antioxidantes y vitaminas A y C.</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-sage/10 text-center shadow-sm hover:shadow-md transition-all">
+                        <div class="w-12 h-12 rounded-full bg-honey/10 text-honey flex items-center justify-center text-2xl mx-auto mb-3">🥥</div>
+                        <h4 class="font-bold text-sm text-charcoal">Aceite de Coco</h4>
+                        <p class="text-[11px] text-gray-500 mt-1">Favorece la digestión y refuerza el sistema inmune.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonios" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs uppercase font-extrabold tracking-wider text-sage bg-sage/10 px-3 py-1 rounded-full">Testimonios Reales</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-charcoal mt-3">Lo que dicen los Papás Perrunos</h2>
+                <p class="text-charcoal/70 mt-2">Cientos de perritos han cambiado sus vidas gracias a una nutrición real.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white p-6 rounded-3xl border border-sage/10 shadow-card flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-1 text-honey text-sm mb-4">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-charcoal/80 text-sm leading-relaxed italic mb-6">
+                            "Max tenía problemas de alergias continuas en la piel y rechazaba las croquetas tradicionales. A la semana de empezar con la receta de Salmón de NutriPaw dejó de rascarse y devora su plato en segundos."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-4 pt-4 border-t border-gray-100">
+                        <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=150&q=80" alt="Max el Beagle" class="w-12 h-12 rounded-full object-cover border-2 border-sage">
+                        <div>
+                            <h4 class="font-bold text-sm text-charcoal">Max (Golden Retriever, 4 años)</h4>
+                            <p class="text-xs text-gray-400">Dueño: Valeria Mendoza</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-white p-6 rounded-3xl border border-sage/10 shadow-card flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-1 text-honey text-sm mb-4">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-charcoal/80 text-sm leading-relaxed italic mb-6">
+                            "La calculadora de raciones fue clave para organizar los alimentos de Rocky. El servicio de entrega mensual automatizado me da tranquilidad de que nunca le falte su comida fresca."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-4 pt-4 border-t border-gray-100">
+                        <img src="https://images.unsplash.com/photo-1583511655826-05700d52f4d9?auto=format&fit=crop&w=150&q=80" alt="Rocky Bulldog" class="w-12 h-12 rounded-full object-cover border-2 border-honey">
+                        <div>
+                            <h4 class="font-bold text-sm text-charcoal">Rocky (French Bulldog, 2 años)</h4>
+                            <p class="text-xs text-gray-400">Dueño: Carlos Aranda</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-white p-6 rounded-3xl border border-sage/10 shadow-card flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-1 text-honey text-sm mb-4">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-charcoal/80 text-sm leading-relaxed italic mb-6">
+                            "Nuestra perrita senior Maya había perdido la vitalidad. Desde que consume los menús frescos precocinados NutriPaw tiene de nuevo muchísima energía para pasear."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-4 pt-4 border-t border-gray-100">
+                        <img src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=150&q=80" alt="Maya Mestiza" class="w-12 h-12 rounded-full object-cover border-2 border-sage">
+                        <div>
+                            <h4 class="font-bold text-sm text-charcoal">Maya (Mestiza, 9 años)</h4>
+                            <p class="text-xs text-gray-400">Dueño: Camila Fernández</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 bg-sage/5 border-t border-sage/10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <span class="text-xs uppercase font-extrabold tracking-wider text-honey bg-honey/10 px-3 py-1 rounded-full">Resuelve tus dudas</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-charcoal mt-3">Preguntas Frecuentes</h2>
+                <p class="text-charcoal/70 mt-2">Todo lo que necesitas saber antes de iniciar la transición alimentaria.</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="bg-white rounded-2xl border border-sage/10 overflow-hidden transition-all shadow-sm">
+                    <button onclick="toggleAccordion(this)" class="w-full p-5 text-left font-bold text-charcoal text-base flex justify-between items-center focus:outline-none">
+                        <span>¿Cómo realizo la transición de comida seca a comida fresca NutriPaw?</span>
+                        <i class="fa-solid fa-chevron-down text-sage transition-transform duration-300"></i>
+                    </button>
+                    <div class="hidden px-5 pb-5 text-sm text-charcoal/80 border-t border-gray-50 pt-3">
+                        Recomendamos un periodo de transición paulatino de 7 a 10 días mezclando el alimento anterior con NutriPaw:
+                        <ul class="list-disc list-inside mt-2 space-y-1">
+                            <li>Días 1-3: 25% NutriPaw + 75% alimento previo</li>
+                            <li>Días 4-6: 50% NutriPaw + 50% alimento previo</li>
+                            <li>Días 7-9: 75% NutriPaw + 25% alimento previo</li>
+                            <li>Día 10+: 100% NutriPaw</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-white rounded-2xl border border-sage/10 overflow-hidden transition-all shadow-sm">
+                    <button onclick="toggleAccordion(this)" class="w-full p-5 text-left font-bold text-charcoal text-base flex justify-between items-center focus:outline-none">
+                        <span>¿Cómo debo conservar la comida y cuánto tiempo dura?</span>
+                        <i class="fa-solid fa-chevron-down text-sage transition-transform duration-300"></i>
+                    </button>
+                    <div class="hidden px-5 pb-5 text-sm text-charcoal/80 border-t border-gray-50 pt-3">
+                        Nuestra comida fresca viene empacada al vacío y congelada. En el congelador dura hasta 6 meses sin perder nutrientes. Una vez descongelado en el refrigerador, se conserva en óptimas condiciones hasta por 5 días.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-white rounded-2xl border border-sage/10 overflow-hidden transition-all shadow-sm">
+                    <button onclick="toggleAccordion(this)" class="w-full p-5 text-left font-bold text-charcoal text-base flex justify-between items-center focus:outline-none">
+                        <span>¿Cómo funciona el envío y la cadena de frío?</span>
+                        <i class="fa-solid fa-chevron-down text-sage transition-transform duration-300"></i>
+                    </button>
+                    <div class="hidden px-5 pb-5 text-sm text-charcoal/80 border-t border-gray-50 pt-3">
+                        Utilizamos empaques térmicos ecofriendly con gel refrigerante de larga duración. Garantizamos que el producto llegue congelado o refrigerado directamente a la puerta de tu hogar.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="bg-white rounded-2xl border border-sage/10 overflow-hidden transition-all shadow-sm">
+                    <button onclick="toggleAccordion(this)" class="w-full p-5 text-left font-bold text-charcoal text-base flex justify-between items-center focus:outline-none">
+                        <span>¿Puedo cancelar o modificar mi plan de suscripción mensual en cualquier momento?</span>
+                        <i class="fa-solid fa-chevron-down text-sage transition-transform duration-300"></i>
+                    </button>
+                    <div class="hidden px-5 pb-5 text-sm text-charcoal/80 border-t border-gray-50 pt-3">
+                        ¡Por supuesto! Cero permanencias. Puedes pausar, reprogramar fechas de envío o cancelar tu suscripción sin costo alguno desde tu perfil o contactando a nuestro equipo de atención al cliente.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-16 bg-sage text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="bg-sage-dark/60 rounded-3xl p-8 sm:p-12 border border-white/10 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="max-w-xl text-center md:text-left">
+                    <span class="text-xs uppercase font-extrabold tracking-widest text-honey">Regalo de Bienvenida</span>
+                    <h3 class="text-3xl font-extrabold mt-1">Obtén 10% OFF en tu primer pedido</h3>
+                    <p class="text-white/80 text-sm mt-2">Suscríbete a nuestro boletín para recibir consejos nutricionales semanales y ofertas exclusivas.</p>
+                </div>
+                <form onsubmit="handleNewsletterSubmit(event)" class="w-full md:w-auto flex flex-col sm:flex-row gap-3">
+                    <input type="email" required placeholder="Tu correo electrónico..." class="px-5 py-3.5 rounded-xl text-charcoal text-sm focus:outline-none focus:ring-2 focus:ring-honey w-full sm:w-72">
+                    <button type="submit" class="px-6 py-3.5 bg-honey hover:bg-honey-hover font-extrabold rounded-xl text-sm transition-all whitespace-nowrap shadow-md">
+                        ¡Quiero mi 10% OFF!
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal text-white/80 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
+                
+                <!-- Col 1: Brand Info -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-sage flex items-center justify-center text-honey text-xl shadow-md">
+                            <i class="fa-solid fa-paw"></i>
+                        </div>
+                        <span class="text-2xl font-extrabold text-white">NutriPaw</span>
+                    </div>
+                    <p class="text-sm text-white/60 leading-relaxed max-w-sm">
+                        Nutrición real, consciente y deliciosa elaborada con amor para mejorar la digestión, pelaje y longevidad de tu perro.
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-honey flex items-center justify-center text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-honey flex items-center justify-center text-white transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-honey flex items-center justify-center text-white transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Navigation -->
+                <div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Navegación</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#inicio" class="hover:text-honey transition-colors">Inicio</a></li>
+                        <li><a href="#productos" class="hover:text-honey transition-colors">Menús y Productos</a></li>
+                        <li><a href="#calculadora" class="hover:text-honey transition-colors">Calculadora de Ración</a></li>
+                        <li><a href="#beneficios" class="hover:text-honey transition-colors">Comparativa Nutricional</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Legal & Help -->
+                <div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Soporte</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#faq" class="hover:text-honey transition-colors">Preguntas Frecuentes</a></li>
+                        <li><a href="#" class="hover:text-honey transition-colors">Términos y Condiciones</a></li>
+                        <li><a href="#" class="hover:text-honey transition-colors">Política de Privacidad</a></li>
+                        <li><a href="#" class="hover:text-honey transition-colors">Guía de Alimentación</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Contact -->
+                <div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Contacto</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-envelope text-honey"></i>
+                            <span>hola@nutripaw.com</span>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-phone text-honey"></i>
+                            <span>+52 (55) 8765-4321</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-location-dot text-honey mt-1"></i>
+                            <span>Cocina Central NutriPaw, Ciudad de México</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50">
+                <p>&copy; 2026 NutriPaw. Todos los derechos reservados. Nutrición Natural Canina.</p>
+                <div class="flex items-center gap-4 text-lg">
+                    <i class="fa-brands fa-cc-visa"></i>
+                    <i class="fa-brands fa-cc-mastercard"></i>
+                    <i class="fa-brands fa-cc-paypal"></i>
+                    <i class="fa-brands fa-cc-apple-pay"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp CTA Button -->
+    <a href="https://wa.me/1234567890?text=Hola!%20Quiero%20asesoria%20sobre%20NutriPaw" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-40 bg-emerald-600 hover:bg-emerald-700 text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-floating hover:scale-110 transition-transform badge-pulse">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Slide-over Shopping Cart Drawer -->
+    <div id="cart-drawer-overlay" class="fixed inset-0 bg-charcoal/50 backdrop-blur-sm z-50 hidden transition-opacity duration-300 opacity-0" onclick="toggleCart()"></div>
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col justify-between">
+        <!-- Cart Header -->
+        <div class="p-5 border-b border-gray-100 flex items-center justify-between bg-cream">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-basket-shopping text-sage text-xl"></i>
+                <h3 class="font-extrabold text-lg text-charcoal">Tu Carrito NutriPaw</h3>
+            </div>
+            <button onclick="toggleCart()" class="text-gray-400 hover:text-charcoal p-2 rounded-lg">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cart-items-container" class="p-5 overflow-y-auto flex-1 space-y-4">
+            <!-- Dynamic Content -->
+        </div>
+
+        <!-- Cart Footer -->
+        <div class="p-5 border-t border-gray-100 bg-cream space-y-4">
+            <div class="space-y-1.5 text-sm">
+                <div class="flex justify-between text-gray-500">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal">$0.00</span>
+                </div>
+                <div class="flex justify-between text-gray-500">
+                    <span>Envío</span>
+                    <span class="text-sage font-bold">GRATIS</span>
+                </div>
+                <div class="flex justify-between font-extrabold text-base text-charcoal pt-2 border-t border-gray-200">
+                    <span>Total Estimado</span>
+                    <span id="cart-total" class="text-sage">$0.00</span>
+                </div>
+            </div>
+
+            <button onclick="openCheckoutModal()" class="w-full py-4 bg-honey hover:bg-honey-hover text-white font-extrabold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-sm">
+                <span>Proceder al Pago</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Product Quick View Modal -->
+    <div id="quick-view-modal" class="fixed inset-0 bg-charcoal/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl relative animate-fade-in">
+            <button onclick="closeQuickView()" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-charcoal flex items-center justify-center shadow-md">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div id="quick-view-content" class="grid sm:grid-cols-2">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="fixed inset-0 bg-charcoal/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-gray-400 hover:text-charcoal">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div id="checkout-body">
+                <div class="text-center mb-6">
+                    <div class="w-12 h-12 bg-sage/10 text-sage rounded-2xl flex items-center justify-center mx-auto mb-2 text-xl">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-charcoal">Finalizar Pedido</h3>
+                    <p class="text-xs text-gray-500">Completa tus datos para agendar la entrega</p>
+                </div>
+
+                <form onsubmit="handleCheckoutSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-charcoal mb-1">Nombre Completo</label>
+                        <input type="text" required placeholder="Ej. Ana García" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-sage">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-charcoal mb-1">Teléfono</label>
+                            <input type="tel" required placeholder="55 1234 5678" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-sage">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-charcoal mb-1">Nombre de tu Perro</label>
+                            <input type="text" placeholder="Ej. Toby" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-sage">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-charcoal mb-1">Dirección de Entrega</label>
+                        <input type="text" required placeholder="Calle, Número, Colonia y Ciudad" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-sage">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-charcoal mb-1">Método de Pago</label>
+                        <select class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-sage bg-white">
+                            <option>Tarjeta de Crédito / Débito</option>
+                            <option>Pago Contra Entrega</option>
+                            <option>Transferencia SPEI / MercadoPago</option>
+                        </select>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-100 flex justify-between items-center">
+                        <div>
+                            <span class="text-xs text-gray-500 block">Total a pagar:</span>
+                            <span id="checkout-total-price" class="text-xl font-extrabold text-sage">$0.00</span>
+                        </div>
+                        <button type="submit" class="px-6 py-3 bg-honey hover:bg-honey-hover text-white font-extrabold rounded-xl shadow-md text-sm transition-all">
+                            Confirmar Pedido
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div id="toast" class="fixed bottom-6 left-6 z-50 bg-charcoal text-white px-5 py-3.5 rounded-2xl shadow-floating flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toast-message" class="text-sm font-semibold">Producto añadido al carrito</span>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Products Database Array
+        const products = [
+            {
+                id: 'prod-1',
+                name: 'Menú Pollo Campero & Espinaca',
+                category: 'fresca',
+                price: 8.50,
+                rating: 5,
+                reviews: 142,
+                image: 'https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=600&q=80',
+                badge: 'Más Vendido',
+                ingredients: ['Pollo sin hormonas', 'Camote', 'Espinaca', 'Manzana', 'Aceite de coco'],
+                description: 'Receta jugosa precocinada al vapor con carne magra de pollo, verduras frescas y superalimentos. Perfecta para estómagos sensibles.'
+            },
+            {
+                id: 'prod-2',
+                name: 'Menú Salmón Salvaje & Camote',
+                category: 'fresca',
+                price: 10.20,
+                rating: 5,
+                reviews: 98,
+                image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80',
+                badge: 'Piel y Pelaje',
+                ingredients: ['Salmón atlántico', 'Camote', 'Zanahoria', 'Semillas de chía'],
+                description: 'Cargado de Omega-3 natural que devuelve el brillo al pelaje y alivia la resequedad en la piel desde la primera semana.'
+            },
+            {
+                id: 'prod-3',
+                name: 'Croquetas Holísticas Pavo & Arándanos',
+                category: 'croquetas',
+                price: 24.90,
+                rating: 4.8,
+                reviews: 76,
+                image: 'https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?auto=format&fit=crop&w=600&q=80',
+                badge: 'Horneado Lento',
+                ingredients: ['Pavo libre', 'Arándanos', 'Calabaza', 'Arroz integral'],
+                description: 'Croquetas horneadas lentamente a baja temperatura para preservar el sabor crujiente sin perder densidad nutricional.'
+            },
+            {
+                id: 'prod-4',
+                name: 'Plan Mensual Suscripción BARF 10kg',
+                category: 'barf',
+                price: 79.00,
+                rating: 5,
+                reviews: 215,
+                image: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80',
+                badge: 'Ahorra 15%',
+                ingredients: ['Recetas mixtas pollo y res', 'Vísceras seleccionadas', 'Verduras orgánicas'],
+                description: 'Caja con porciones diarias empacadas al vacío y personalizadas según la edad y peso de tu perro. Envío semanal directo.'
+            },
+            {
+                id: 'prod-5',
+                name: 'Snacks Deshidratados Hígado de Res',
+                category: 'snacks',
+                price: 6.50,
+                rating: 4.9,
+                reviews: 310,
+                image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&w=600&q=80',
+                badge: '100% Monoproteico',
+                ingredients: ['100% Hígado de res deshidratado en frío'],
+                description: 'Premios ideales para entrenamiento. Sin sal, sin químicos, extremadamente palatables e irresistibles.'
+            },
+            {
+                id: 'prod-6',
+                name: 'Bocaditos de Camote y Mantequilla de Maní',
+                category: 'snacks',
+                price: 5.80,
+                rating: 4.7,
+                reviews: 84,
+                image: 'https://images.unsplash.com/photo-1535294435445-d7249524ef2e?auto=format&fit=crop&w=600&q=80',
+                badge: 'Vegano Canino',
+                ingredients: ['Camote horneado', 'Mantequilla de maní artesanal sin xilitol'],
+                description: 'Galletas artesanales crujientes ricas en fibra y grasas saludables para consentir entre comidas.'
+            },
+            {
+                id: 'prod-7',
+                name: 'Menú Cordero Ancestral con Verduras',
+                category: 'fresca',
+                price: 9.80,
+                rating: 4.9,
+                reviews: 64,
+                image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
+                badge: 'Hipoalergénico',
+                ingredients: ['Carne de cordero', 'Ejotes', 'Calabacín', 'Aceite de oliva extra virgen'],
+                description: 'Formulación hipoalergénica con proteína limpia de cordero. Indicado para perritos con intolerancias digestivas.'
+            },
+            {
+                id: 'prod-8',
+                name: 'Plan Dúo Vitality Fresco 15kg',
+                category: 'barf',
+                price: 110.00,
+                rating: 5,
+                reviews: 130,
+                image: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=80',
+                badge: 'Ideal Perros Grandes',
+                ingredients: ['Pollo', 'Res', 'Salmón', 'Variedad de vegetales'],
+                description: 'Suministro mensual para razas medianas y grandes con cajas quincenales ultra frescas.'
+            }
+        ];
+
+        // Global Application State
+        let cart = [];
+        let selectedAge = 'adulto';
+        let selectedActivity = 'moderado';
+
+        // DOM Loaded Event Listener
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts(products);
+            calculateNutrition();
+            updateCartUI();
+        });
+
+        function renderProducts(items) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = items.map(p => `
+                <div class="bg-white rounded-3xl border border-sage/10 overflow-hidden shadow-card hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="relative h-48 overflow-hidden bg-gray-100">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/3A6B4C/FFF?text=NutriPaw'">
+                            <span class="absolute top-3 left-3 bg-sage text-white text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full shadow-md">${p.badge}</span>
+                            <button onclick="openQuickView('${p.id}')" class="absolute bottom-3 right-3 bg-white/90 hover:bg-white text-charcoal w-9 h-9 rounded-full flex items-center justify-center shadow-md transition-all">
+                                <i class="fa-solid fa-eye text-xs"></i>
+                            </button>
+                        </div>
+
+                        <div class="p-5">
+                            <div class="flex items-center gap-1 text-honey text-xs mb-1">
+                                ${Array(Math.floor(p.rating)).fill('<i class="fa-solid fa-star"></i>').join('')}
+                                <span class="text-gray-400 text-[11px] font-medium ml-1">(${p.reviews})</span>
+                            </div>
+
+                            <h3 class="font-bold text-base text-charcoal leading-snug hover:text-sage transition-colors cursor-pointer" onclick="openQuickView('${p.id}')">${p.name}</h3>
+                            
+                            <div class="flex flex-wrap gap-1 mt-2">
+                                ${p.ingredients.slice(0, 3).map(ing => `<span class="text-[10px] bg-sage/5 text-sage font-semibold px-2 py-0.5 rounded-md">${ing}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-5 pt-0 flex items-center justify-between mt-2 border-t border-gray-50 pt-3">
+                        <div>
+                            <span class="text-xs text-gray-400 block">Precio</span>
+                            <span class="text-lg font-extrabold text-sage">$${p.price.toFixed(2)}</span>
+                        </div>
+                        <button onclick="addToCart('${p.id}')" class="px-4 py-2.5 rounded-xl bg-honey hover:bg-honey-hover text-white font-bold text-xs shadow-sm transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Agregar</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(cat, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.classList.remove('bg-sage', 'text-white');
+                b.classList.add('bg-white', 'text-charcoal/80');
+            });
+            btn.classList.remove('bg-white', 'text-charcoal/80');
+            btn.classList.add('bg-sage', 'text-white');
+
+            if (cat === 'all') {
+                renderProducts(products);
+            } else {
+                const filtered = products.filter(p => p.category === cat);
+                renderProducts(filtered);
+            }
+        }
+
+        function selectAge(age, btn) {
+            selectedAge = age;
+            document.querySelectorAll('.age-btn').forEach(b => {
+                b.classList.remove('border-2', 'border-sage', 'bg-sage/10', 'text-sage');
+                b.classList.add('border', 'border-sage/20', 'text-charcoal');
+            });
+            btn.classList.remove('border', 'border-sage/20', 'text-charcoal');
+            btn.classList.add('border-2', 'border-sage', 'bg-sage/10', 'text-sage');
+            calculateNutrition();
+        }
+
+        function selectActivity(act, btn) {
+            selectedActivity = act;
+            document.querySelectorAll('.act-btn').forEach(b => {
+                b.classList.remove('border-2', 'border-sage', 'bg-sage/10', 'text-sage');
+                b.classList.add('border', 'border-sage/20', 'text-charcoal');
+            });
+            btn.classList.remove('border', 'border-sage/20', 'text-charcoal');
+            btn.classList.add('border-2', 'border-sage', 'bg-sage/10', 'text-sage');
+            calculateNutrition();
+        }
+
+        function calculateNutrition() {
+            const weight = parseFloat(document.getElementById('dog-weight').value);
+            document.getElementById('weight-display').innerText = `${weight} kg`;
+
+            // RER calculation formula = 70 * (weight ^ 0.75)
+            const rer = 70 * Math.pow(weight, 0.75);
+
+            let ageFactor = 1.0;
+            if (selectedAge === 'cachorro') ageFactor = 1.5;
+            if (selectedAge === 'senior') ageFactor = 0.85;
+
+            let actFactor = 1.0;
+            if (selectedActivity === 'bajo') actFactor = 0.9;
+            if (selectedActivity === 'alto') actFactor = 1.3;
+
+            const totalCalories = Math.round(rer * ageFactor * actFactor);
+            // Approx 1.5 kcal per gram of fresh food
+            const totalGrams = Math.round(totalCalories / 1.5);
+            const splitGrams = Math.round(totalGrams / 2);
+
+            document.getElementById('calc-grams').innerText = `${totalGrams} g`;
+            document.getElementById('calc-split').innerText = `${splitGrams}g`;
+            document.getElementById('calc-calories').innerText = `${totalCalories} kcal / día`;
+
+            // Plan suggestion name
+            let planName = "Pack Fresco 10 kg / mes";
+            if (weight < 8) planName = "Pack Fresco Mini 5 kg / mes";
+            else if (weight > 25) planName = "Pack Dúo Vitality 20 kg / mes";
+
+            document.getElementById('calc-plan-name').innerText = planName;
+        }
+
+        function addCalculatedPlanToCart() {
+            const weight = document.getElementById('dog-weight').value;
+            const grams = document.getElementById('calc-grams').innerText;
+            const planTitle = document.getElementById('calc-plan-name').innerText;
+
+            const customPlanItem = {
+                id: `custom-plan-${Date.now()}`,
+                name: `Plan Personalizado (${weight}kg - ${grams}/día)`,
+                price: 85.00,
+                quantity: 1,
+                image: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=300&q=80'
+            };
+
+            const existingIndex = cart.findIndex(item => item.name === customPlanItem.name);
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push(customPlanItem);
+            }
+
+            updateCartUI();
+            toggleCart();
+            showToast('¡Plan Nutricional Calculado agregado al Carrito!');
+        }
+
+        function addToCart(productId) {
+            const prod = products.find(p => p.id === productId);
+            if (!prod) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    id: prod.id,
+                    name: prod.name,
+                    price: prod.price,
+                    image: prod.image,
+                    quantity: 1
+                });
+            }
+
+            updateCartUI();
+            showToast(`¡${prod.name} agregado al carrito!`);
+        }
+
+        function changeQty(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== id);
+            }
+            updateCartUI();
+        }
+
+        function removeItem(id) {
+            cart = cart.filter(i => i.id !== id);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cart-count-badge');
+            badge.innerText = totalCount;
+
+            const container = document.getElementById('cart-items-container');
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="w-16 h-16 bg-sage/10 text-sage rounded-full flex items-center justify-center mx-auto mb-3 text-2xl">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                        </div>
+                        <p class="font-bold text-charcoal">Tu carrito está vacío</p>
+                        <p class="text-xs text-gray-400 mt-1">Agrega menús saludables para tu mascota</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = cart.map(item => `
+                    <div class="flex items-center gap-3 p-3 bg-cream/60 rounded-2xl border border-sage/10">
+                        <img src="${item.image}" alt="${item.name}" class="w-14 h-14 rounded-xl object-cover">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-xs text-charcoal line-clamp-1">${item.name}</h4>
+                            <span class="text-xs font-extrabold text-sage block mt-0.5">$${(item.price * item.quantity).toFixed(2)}</span>
+                            <div class="flex items-center gap-2 mt-2">
+                                <button onclick="changeQty('${item.id}', -1)" class="w-6 h-6 rounded-md bg-white border border-gray-200 text-xs flex items-center justify-center font-bold text-charcoal hover:bg-gray-100">-</button>
+                                <span class="text-xs font-bold text-charcoal">${item.quantity}</span>
+                                <button onclick="changeQty('${item.id}', 1)" class="w-6 h-6 rounded-md bg-white border border-gray-200 text-xs flex items-center justify-center font-bold text-charcoal hover:bg-gray-100">+</button>
+                            </div>
+                        </div>
+                        <button onclick="removeItem('${item.id}')" class="text-gray-400 hover:text-red-500 p-1">
+                            <i class="fa-solid fa-trash-can text-sm"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cart-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('cart-total').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('checkout-total-price').innerText = `$${subtotal.toFixed(2)}`;
+        }
+
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('cart-drawer-overlay');
+
+            if (drawer.classList.contains('translate-x-full')) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    overlay.classList.remove('opacity-0');
+                    drawer.classList.remove('translate-x-full');
+                }, 10);
+            } else {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        function openQuickView(id) {
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+
+            const modalContent = document.getElementById('quick-view-content');
+            modalContent.innerHTML = `
+                <div class="h-64 sm:h-full bg-gray-100">
+                    <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6 flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] uppercase font-extrabold text-honey bg-honey/10 px-2.5 py-1 rounded-full">${p.badge}</span>
+                        <h3 class="text-xl font-extrabold text-charcoal mt-2">${p.name}</h3>
+                        <div class="flex items-center gap-1 text-honey text-xs my-2">
+                            ${Array(Math.floor(p.rating)).fill('<i class="fa-solid fa-star"></i>').join('')}
+                            <span class="text-gray-400 font-medium ml-1">(${p.reviews} valoraciones)</span>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed mt-2">${p.description}</p>
+                        
+                        <div class="mt-4">
+                            <span class="text-xs font-bold text-charcoal block mb-1">Ingredientes Principales:</span>
+                            <div class="flex flex-wrap gap-1">
+                                ${p.ingredients.map(i => `<span class="text-[11px] bg-sage/10 text-sage font-bold px-2 py-0.5 rounded-md">${i}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-2xl font-black text-sage">$${p.price.toFixed(2)}</span>
+                        <button onclick="addToCart('${p.id}'); closeQuickView();" class="px-5 py-3 bg-honey hover:bg-honey-hover text-white font-extrabold text-xs rounded-xl shadow-md transition-all">
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('quick-view-modal').classList.remove('hidden');
+        }
+
+        function closeQuickView() {
+            document.getElementById('quick-view-modal').classList.add('hidden');
+        }
+
+        function openCheckoutModal() {
+            if (cart.length === 0) {
+                showToast('Añade al menos un producto antes de proceder al pago');
+                return;
+            }
+            toggleCart();
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function handleCheckoutSubmit(e) {
+            e.preventDefault();
+            const body = document.getElementById('checkout-body');
+            body.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl badge-pulse">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-charcoal">¡Pedido Confirmado!</h3>
+                    <p class="text-sm text-gray-600 mt-2">Hemos recibido tu solicitud. Te enviamos los detalles de envío por correo y WhatsApp.</p>
+                    <div class="mt-6 p-4 bg-cream rounded-2xl text-left text-xs space-y-1">
+                        <p class="font-bold text-sage">Resumen de Entrega:</p>
+                        <p class="text-gray-500">Tiempo estimado: 24 a 48 horas en cadena de frío.</p>
+                    </div>
+                    <button onclick="closeCheckoutModal(); cart=[]; updateCartUI(); location.reload();" class="mt-6 w-full py-3.5 bg-sage hover:bg-sage-dark text-white font-extrabold rounded-xl shadow-md text-sm">
+                        Volver a la Tienda
+                    </button>
+                </div>
+            `;
+        }
+
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector('i');
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('mobile-menu-icon');
+            menu.classList.toggle('hidden');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-xmark');
+        }
+
+        function handleNewsletterSubmit(e) {
+            e.preventDefault();
+            showToast('¡Suscripción exitosa! Te hemos enviado tu código del 10% OFF');
+            e.target.reset();
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.innerText = msg;
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
